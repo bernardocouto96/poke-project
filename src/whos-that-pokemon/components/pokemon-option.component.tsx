@@ -1,0 +1,20 @@
+import React, { FunctionComponent } from "react";
+import styled from "styled-components";
+
+export const PokemonOptionComponent: FunctionComponent<{
+  name: string;
+}> = props => {
+  return <PokemonOption>{props.name}</PokemonOption>;
+};
+
+const PokemonOption = styled.div`
+  border-radius: 5px;
+  border: 1px solid #666;
+  color: yellow;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-align: center;
+  font-family: roboto;
+  font-size: 2em;
+  margin: 10px;
+  padding: 5px;
+`;

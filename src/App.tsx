@@ -6,9 +6,9 @@ import { GameContainer } from "./whos-that-pokemon/game.container";
 const App: React.FC = () => {
   return (
     <Router>
-      <div>
+      <div className="app-container">
         <HeaderComponent />
-        <Route path="/game" component={GameContainer} />
+        <Route path="/" component={GameContainer} />
       </div>
     </Router>
   );
