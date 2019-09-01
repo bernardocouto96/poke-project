@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import styled from "styled-components";
+import React, { FunctionComponent } from 'react';
+import styled from 'styled-components';
 export const TimerComponent: FunctionComponent = () => {
   return <TimerContainer>30</TimerContainer>;
 };
@@ -7,7 +7,7 @@ export const TimerComponent: FunctionComponent = () => {
 const TimerContainer = styled.div`
   width: 100px;
   height: 100px;
-  background-image: url("http://www.sclance.com/pngs/pokeball-icon-png/pokeball_icon_png_1092594.png");
+  background-image: url('http://www.sclance.com/pngs/pokeball-icon-png/pokeball_icon_png_1092594.png');
   background-size: contain;
   font-size: 5em;
   color: yellow;

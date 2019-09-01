@@ -1,7 +1,14 @@
+export enum GameStates {
+  Stopped,
+  Running,
+  Finished
+}
+
 export interface StoreState {
   pokemonGame: {
-    pokemonName?: string;
-    pokemonImage?: string;
+    gameState: GameStates;
+    pokemonName: string;
+    pokemonImage: string;
     isFetching?: boolean;
     pokemonOptionList?: Array<string>;
   };

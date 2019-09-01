@@ -1,4 +1,10 @@
-import * as constants from "../constants";
+import * as constants from '../constants';
+import { GameStates } from '../types';
+
+export interface SetGameState {
+  type: constants.SET_GAME_STATE;
+  gameState: GameStates;
+}
 
 export interface SetPokemonName {
   type: constants.SET_POKEMON_NAME;
@@ -14,7 +20,28 @@ export interface FetchPokemonApi {
   type: constants.FETCH_POKEMON_API;
 }
 
-export type GameAction = SetPokemonName | SetPokemonImage | FetchPokemonApi;
+export interface PokemonApiFetchedSuccessful {
+  type: constants.POKEMON_API_FETCH_SUCCESSFUL;
+}
+
+export interface PokemonApiFetchedFailed {
+  type: constants.POKEMON_API_FETCH_FAILED;
+}
+
+export type GameAction =
+  | SetPokemonName
+  | SetPokemonImage
+  | FetchPokemonApi
+  | PokemonApiFetchedSuccessful
+  | PokemonApiFetchedFailed
+  | SetGameState;
+
+export function setGameState(gameState: GameStates): SetGameState {
+  return {
+    type: constants.SET_GAME_STATE,
+    gameState
+  };
+}
 
 export function setPokemonName(name: string): SetPokemonName {
   return {
@@ -33,5 +60,17 @@ export function setPokemonImage(url: string): SetPokemonImage {
 export function fetchPokemonApi(): FetchPokemonApi {
   return {
     type: constants.FETCH_POKEMON_API
+  };
+}
+
+export function pokemonApiFetchSuccessful(): PokemonApiFetchedSuccessful {
+  return {
+    type: constants.POKEMON_API_FETCH_SUCCESSFUL
+  };
+}
+
+export function pokemonApiFetchFailed(): PokemonApiFetchedFailed {
+  return {
+    type: constants.POKEMON_API_FETCH_FAILED
   };
 }

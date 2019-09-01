@@ -1,14 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import "./app.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './app.css';
 
-import { createStore } from "redux";
-import { game } from "./reducers/index";
-import { StoreState } from "./types/index";
+import { createStore } from 'redux';
+import { game } from './reducers/index';
+import { StoreState, GameStates } from './types';
 
-//@ts-ignore
 const store = createStore<StoreState>(game, {
-  pokemonGame: {}
+  pokemonGame: { pokemonName: '', pokemonImage: '', gameState: GameStates.Stopped }
 });
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App store={store} />, document.getElementById('root'));
