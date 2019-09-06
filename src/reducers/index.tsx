@@ -6,7 +6,8 @@ import {
   FETCH_POKEMON_API,
   POKEMON_API_FETCH_SUCCESSFUL,
   POKEMON_API_FETCH_FAILED,
-  SET_GAME_STATE
+  SET_GAME_STATE,
+  SET_POKEMON_OPTIONS
 } from '../constants/index';
 
 export function game(state: StoreState, action: GameAction): StoreState {
@@ -41,6 +42,11 @@ export function game(state: StoreState, action: GameAction): StoreState {
       return {
         ...state,
         pokemonGame: { ...pokemonGameState, isFetching: false }
+      };
+    case SET_POKEMON_OPTIONS:
+      return {
+        ...state,
+        pokemonGame: { ...pokemonGameState, pokemonOptions: action.pokemonOptions }
       };
   }
   return state;

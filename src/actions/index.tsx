@@ -16,6 +16,11 @@ export interface SetPokemonImage {
   pokemonImage: string;
 }
 
+export interface SetPokemonOptions {
+  type: constants.SET_POKEMON_OPTIONS;
+  pokemonOptions: Array<string>;
+}
+
 export interface FetchPokemonApi {
   type: constants.FETCH_POKEMON_API;
 }
@@ -34,7 +39,8 @@ export type GameAction =
   | FetchPokemonApi
   | PokemonApiFetchedSuccessful
   | PokemonApiFetchedFailed
-  | SetGameState;
+  | SetGameState
+  | SetPokemonOptions;
 
 export function setGameState(gameState: GameStates): SetGameState {
   return {
@@ -54,6 +60,13 @@ export function setPokemonImage(url: string): SetPokemonImage {
   return {
     type: constants.SET_POKEMON_IMAGE,
     pokemonImage: url
+  };
+}
+
+export function setPokemonOptions(pokemonOptions: Array<string>) {
+  return {
+    type: constants.SET_POKEMON_OPTIONS,
+    pokemonOptions
   };
 }
 

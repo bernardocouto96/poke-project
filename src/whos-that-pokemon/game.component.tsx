@@ -1,26 +1,33 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 import { TimerComponent } from './components/timer-component';
 import { PokemonImageComponent } from './components/pokemon-image.component';
 import { PokemonOptionListComponent } from './components/pokemon-option-list.component';
-import { getPokemonNumber } from '../helpers/pokemonNumberGenerator';
+import { getPokemonNumber, getPokemonNumbersForList } from '../helpers/pokemonNumberGenerator';
 import { GameStates } from '../types';
 
 export const GameComponent: FunctionComponent<GameComponentProps> = ({
   gameState,
   getPokemon,
+  getPokemonOptions,
   pokemonImage,
   pokemonName,
+  pokemonOptions,
   isFetching
 }) => {
-  if (gameState === GameStates.Stopped) getPokemon(getPokemonNumber(1, 151));
+  useEffect(() => {
+    const pokemonNumber = getPokemonNumber(1, 151);
+
+    getPokemon(pokemonNumber);
+    getPokemonOptions(getPokemonNumbersForList(1, 151, 4, pokemonNumber));
+  }, [getPokemon, getPokemonOptions]);
 
   return (
     <GameScreen>
       <TimerComponent />
       <PokemonImageAndOptionsWrapper>
         <PokemonImageComponent pokemonImage={pokemonImage} />
-        <PokemonOptionListComponent />
+        <PokemonOptionListComponent pokemonOptions={pokemonOptions} />
       </PokemonImageAndOptionsWrapper>
     </GameScreen>
   );
@@ -44,4 +51,6 @@ interface GameComponentProps {
   pokemonName: string;
   isFetching?: boolean;
   getPokemon: Function;
+  getPokemonOptions: Function;
+  pokemonOptions: Array<string>;
 }

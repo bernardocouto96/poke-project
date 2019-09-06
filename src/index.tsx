@@ -8,6 +8,11 @@ import { game } from './reducers/index';
 import { StoreState, GameStates } from './types';
 
 const store = createStore<StoreState>(game, {
-  pokemonGame: { pokemonName: '', pokemonImage: '', gameState: GameStates.Stopped }
+  pokemonGame: {
+    pokemonName: '',
+    pokemonImage: '',
+    gameState: GameStates.Stopped,
+    pokemonOptions: []
+  }
 });
 ReactDOM.render(<App store={store} />, document.getElementById('root'));

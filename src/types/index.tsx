@@ -9,7 +9,7 @@ export interface StoreState {
     gameState: GameStates;
     pokemonName: string;
     pokemonImage: string;
+    pokemonOptions: Array<string> | [];
     isFetching?: boolean;
-    pokemonOptionList?: Array<string>;
   };
 }
