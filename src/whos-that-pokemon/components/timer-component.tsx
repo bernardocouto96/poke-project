@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-export const TimerComponent: FunctionComponent = () => {
+export const TimerComponent: React.FC = () => {
   return <TimerContainer>30</TimerContainer>;
 };
 

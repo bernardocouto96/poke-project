@@ -7,9 +7,10 @@ export enum GameStates {
 export interface StoreState {
   pokemonGame: {
     gameState: GameStates;
-    pokemonName: string;
-    pokemonImage: string;
-    pokemonOptions: Array<string> | [];
+    pokemonNames: Array<string>;
+    pokemonImages: Array<string>;
+    pokemonOptionsList: Array<Array<string>> | [[]];
+    currentPokemon: number;
     isFetching?: boolean;
   };
 }

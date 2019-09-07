@@ -1,26 +1,21 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { TimerComponent } from './components/timer-component';
 import { PokemonImageComponent } from './components/pokemon-image.component';
 import { PokemonOptionListComponent } from './components/pokemon-option-list.component';
-import { getPokemonNumber, getPokemonNumbersForList } from '../helpers/pokemonNumberGenerator';
 import { GameStates } from '../types';
 
-export const GameComponent: FunctionComponent<GameComponentProps> = ({
+export const GameComponent: React.FC<GameComponentProps> = ({
   gameState,
-  getPokemon,
-  getPokemonOptions,
+  gameStartHandler,
   pokemonImage,
   pokemonName,
   pokemonOptions,
   isFetching
 }) => {
   useEffect(() => {
-    const pokemonNumber = getPokemonNumber(1, 151);
-
-    getPokemon(pokemonNumber);
-    getPokemonOptions(getPokemonNumbersForList(1, 151, 4, pokemonNumber));
-  }, [getPokemon, getPokemonOptions]);
+    gameStartHandler();
+  }, [gameStartHandler]);
 
   return (
     <GameScreen>
@@ -45,12 +40,11 @@ const PokemonImageAndOptionsWrapper = styled.div`
   align-items: center;
 `;
 
-interface GameComponentProps {
+type GameComponentProps = {
   gameState: GameStates;
   pokemonImage: string;
   pokemonName: string;
   isFetching?: boolean;
-  getPokemon: Function;
-  getPokemonOptions: Function;
   pokemonOptions: Array<string>;
-}
+  gameStartHandler: () => void;
+};

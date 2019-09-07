@@ -1,10 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-export const PokemonOptionComponent: FunctionComponent<{
-  name: string;
-}> = props => {
-  return <PokemonOption>{props.name}</PokemonOption>;
+export const PokemonOptionComponent: React.FC<PokemonOptionsProps> = ({ name }) => {
+  return <PokemonOption>{name}</PokemonOption>;
 };
 
 const PokemonOption = styled.div`
@@ -18,3 +16,7 @@ const PokemonOption = styled.div`
   margin: 10px;
   padding: 5px;
 `;
+
+type PokemonOptionsProps = {
+  name: string;
+};

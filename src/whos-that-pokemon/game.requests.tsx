@@ -1,43 +1,27 @@
 import axios from 'axios';
 import config from '../config';
-import { Dispatch } from 'redux';
-import * as actions from '../actions/';
-import { GameStates } from '../types';
 
-export const getPokemon = async (pokemonNumber: number, dispatch: Dispatch<actions.GameAction>) => {
-  dispatch(actions.fetchPokemonApi());
-
+export const getPokemons = async (pokemonNumber: Array<number>) => {
   const url = config.api.pokemonUrl;
-  try {
-    const { data } = await axios.get(`${url}/${pokemonNumber}`);
-    const { name, sprites } = data;
-    const { front_default } = sprites;
 
-    // dispatch(actions.setGameState(GameStates.Running));
-    dispatch(actions.pokemonApiFetchSuccessful());
-    dispatch(actions.setPokemonName(name));
-    dispatch(actions.setPokemonImage(front_default));
-  } catch (error) {
-    dispatch(actions.pokemonApiFetchFailed());
-  }
+  const requests = pokemonNumber.map(pokemonNumber => axios.get(`${url}/${pokemonNumber}`));
+  const responses = await Promise.all(requests);
+  const pokemonNames = responses.map(response => response.data.name);
+  const pokemonImages = responses.map(response => response.data.sprites.front_default);
+
+  return { pokemonNames, pokemonImages };
 };
 
-export const getPokemonOptions = async (
-  pokemonNumberList: Array<number>,
-  dispatch: Dispatch<actions.GameAction>
-) => {
-  dispatch(actions.fetchPokemonApi());
-
+export const getPokemonOptions = async (pokemonNumbersList: Array<Array<number>>) => {
   const url = config.api.pokemonUrl;
-  try {
-    const requests = pokemonNumberList.map(pokemonNumber => axios.get(`${url}/${pokemonNumber}`));
-    const responses = await Promise.all(requests);
-    const pokemonOptions = responses.map(response => response.data.name);
 
-    dispatch(actions.pokemonApiFetchSuccessful());
-    dispatch(actions.setPokemonOptions(pokemonOptions));
-    dispatch(actions.setGameState(GameStates.Running));
-  } catch (error) {
-    dispatch(actions.pokemonApiFetchFailed());
-  }
+  const pokemonOptionsList = await Promise.all(
+    pokemonNumbersList.map(async pokemonNumbers => {
+      const requests = pokemonNumbers.map(pokemonNumber => axios.get(`${url}/${pokemonNumber}`));
+      const responses = await Promise.all(requests);
+      return responses.map(response => response.data.name);
+    })
+  );
+
+  return pokemonOptionsList;
 };

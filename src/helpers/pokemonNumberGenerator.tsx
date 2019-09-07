@@ -1,19 +1,34 @@
 import { scrambleArray } from './arrayScrambler';
 
-export const getPokemonNumber = (min: number, max: number): number =>
-  Math.floor(Math.random() * max) + min;
+const getRandomNumber = (min: number, max: number) => Math.floor(Math.random() * max) + min;
 
-export const getPokemonNumbersForList = (
+const getRandomNumbersArray = (
   min: number,
   max: number,
-  optionsQuantity: number,
-  correctPokemon: number
+  lenght: number,
+  requiredNumber?: number
 ) => {
-  let optionNumbers: Array<number> = [correctPokemon];
-  do {
-    const randomNumber = Math.floor(Math.random() * max) + min;
-    if (!optionNumbers.includes(randomNumber)) optionNumbers.push(randomNumber);
-  } while (optionNumbers.length !== optionsQuantity);
+  let numbersArray: Array<number> = requiredNumber ? [requiredNumber] : [];
 
-  return scrambleArray(optionNumbers);
+  while (numbersArray.length !== lenght) {
+    const randomNumber = getRandomNumber(min, max);
+    if (!numbersArray.includes(randomNumber)) numbersArray.push(randomNumber);
+  }
+  return numbersArray;
+};
+
+export const getPokemonNumbersToStart = (min: number, max: number, startAmount: number) => {
+  const pokemonNumbers = getRandomNumbersArray(min, max, startAmount);
+  return pokemonNumbers;
+};
+
+export const getPokemonNumbersForListToStart = (
+  min: number,
+  max: number,
+  optionsAmount: number,
+  correctPokemons: Array<number>
+) => {
+  return correctPokemons.map(correctPokemon =>
+    scrambleArray(getRandomNumbersArray(min, max, optionsAmount, correctPokemon))
+  );
 };

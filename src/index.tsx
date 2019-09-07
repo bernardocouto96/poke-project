@@ -9,10 +9,11 @@ import { StoreState, GameStates } from './types';
 
 const store = createStore<StoreState>(game, {
   pokemonGame: {
-    pokemonName: '',
-    pokemonImage: '',
+    pokemonNames: [],
+    pokemonImages: [],
+    currentPokemon: 0,
     gameState: GameStates.Stopped,
-    pokemonOptions: []
+    pokemonOptionsList: [[]]
   }
 });
 ReactDOM.render(<App store={store} />, document.getElementById('root'));

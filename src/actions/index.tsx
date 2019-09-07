@@ -6,19 +6,19 @@ export interface SetGameState {
   gameState: GameStates;
 }
 
-export interface SetPokemonName {
-  type: constants.SET_POKEMON_NAME;
-  pokemonName: string;
+export interface SetPokemonNames {
+  type: constants.SET_POKEMON_NAMES;
+  pokemonNames: Array<string>;
 }
 
 export interface SetPokemonImage {
-  type: constants.SET_POKEMON_IMAGE;
-  pokemonImage: string;
+  type: constants.SET_POKEMON_IMAGES;
+  pokemonImages: Array<string>;
 }
 
-export interface SetPokemonOptions {
-  type: constants.SET_POKEMON_OPTIONS;
-  pokemonOptions: Array<string>;
+export interface SetPokemonOptionsList {
+  type: constants.SET_POKEMON_OPTIONS_LIST;
+  pokemonOptionsList: Array<Array<string>>;
 }
 
 export interface FetchPokemonApi {
@@ -34,13 +34,13 @@ export interface PokemonApiFetchedFailed {
 }
 
 export type GameAction =
-  | SetPokemonName
+  | SetPokemonNames
   | SetPokemonImage
   | FetchPokemonApi
   | PokemonApiFetchedSuccessful
   | PokemonApiFetchedFailed
   | SetGameState
-  | SetPokemonOptions;
+  | SetPokemonOptionsList;
 
 export function setGameState(gameState: GameStates): SetGameState {
   return {
@@ -49,24 +49,24 @@ export function setGameState(gameState: GameStates): SetGameState {
   };
 }
 
-export function setPokemonName(name: string): SetPokemonName {
+export function setPokemonNames(names: Array<string>): SetPokemonNames {
   return {
-    type: constants.SET_POKEMON_NAME,
-    pokemonName: name
+    type: constants.SET_POKEMON_NAMES,
+    pokemonNames: names
   };
 }
 
-export function setPokemonImage(url: string): SetPokemonImage {
+export function setPokemonImages(urls: Array<string>): SetPokemonImage {
   return {
-    type: constants.SET_POKEMON_IMAGE,
-    pokemonImage: url
+    type: constants.SET_POKEMON_IMAGES,
+    pokemonImages: urls
   };
 }
 
-export function setPokemonOptions(pokemonOptions: Array<string>) {
+export function setPokemonOptionsList(pokemonOptionsList: Array<Array<string>>) {
   return {
-    type: constants.SET_POKEMON_OPTIONS,
-    pokemonOptions
+    type: constants.SET_POKEMON_OPTIONS_LIST,
+    pokemonOptionsList
   };
 }
 

@@ -1,10 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { PokemonOptionComponent } from './pokemon-option.component';
 import styled from 'styled-components';
 
-export const PokemonOptionListComponent: FunctionComponent<PokemonOptionsProps> = ({
-  pokemonOptions
-}) => {
+export const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({ pokemonOptions }) => {
   return (
     <PokemonOptionList>
       {pokemonOptions.map((name, index) => (
@@ -19,6 +17,6 @@ const PokemonOptionList = styled.div`
   width: 100%;
 `;
 
-interface PokemonOptionsProps {
+type PokemonOptionsProps = {
   pokemonOptions: Array<string>;
-}
+};

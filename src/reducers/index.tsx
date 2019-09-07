@@ -1,13 +1,13 @@
 import { GameAction } from '../actions';
 import { StoreState } from '../types/index';
 import {
-  SET_POKEMON_NAME,
-  SET_POKEMON_IMAGE,
+  SET_POKEMON_NAMES,
+  SET_POKEMON_IMAGES,
   FETCH_POKEMON_API,
   POKEMON_API_FETCH_SUCCESSFUL,
   POKEMON_API_FETCH_FAILED,
   SET_GAME_STATE,
-  SET_POKEMON_OPTIONS
+  SET_POKEMON_OPTIONS_LIST
 } from '../constants/index';
 
 export function game(state: StoreState, action: GameAction): StoreState {
@@ -18,15 +18,15 @@ export function game(state: StoreState, action: GameAction): StoreState {
         ...state,
         pokemonGame: { ...pokemonGameState, gameState: action.gameState }
       };
-    case SET_POKEMON_NAME:
+    case SET_POKEMON_NAMES:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, pokemonName: action.pokemonName }
+        pokemonGame: { ...pokemonGameState, pokemonNames: action.pokemonNames }
       };
-    case SET_POKEMON_IMAGE:
+    case SET_POKEMON_IMAGES:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, pokemonImage: action.pokemonImage }
+        pokemonGame: { ...pokemonGameState, pokemonImages: action.pokemonImages }
       };
     case FETCH_POKEMON_API:
       return {
@@ -43,10 +43,10 @@ export function game(state: StoreState, action: GameAction): StoreState {
         ...state,
         pokemonGame: { ...pokemonGameState, isFetching: false }
       };
-    case SET_POKEMON_OPTIONS:
+    case SET_POKEMON_OPTIONS_LIST:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, pokemonOptions: action.pokemonOptions }
+        pokemonGame: { ...pokemonGameState, pokemonOptionsList: action.pokemonOptionsList }
       };
   }
   return state;
