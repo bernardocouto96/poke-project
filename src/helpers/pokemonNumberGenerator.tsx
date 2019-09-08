@@ -17,8 +17,14 @@ export const getRandomNumbersArray = (
   return scrambleArray(numbersArray);
 };
 
-export const getPokemonNumber = (min: number, max: number, pokemonNumbers: Array<string>) => {
-  const randomNumber = getRandomNumber(min, max);
+export const getUniquePokemonNumber = (min: number, max: number, pokemonNumbers: Array<number>) => {
+  let randomNumber = getRandomNumber(min, max);
+
+  while (pokemonNumbers.includes(randomNumber)) {
+    randomNumber = getRandomNumber(min, max);
+  }
+
+  return randomNumber;
 };
 
 export const getPokemonNumbersToStart = (min: number, max: number, startAmount: number) => {

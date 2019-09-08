@@ -4,8 +4,8 @@ import { getPokemonOptions, getPokemons, getPokemon, getPokemonOptionsList } fro
 import {
   getPokemonNumbersToStart,
   getPokemonNumbersForListToStart,
-  getRandomNumber,
-  getRandomNumbersArray
+  getRandomNumbersArray,
+  getUniquePokemonNumber
 } from '../helpers/pokemonNumberGenerator';
 import { GameStates, Pokemon } from '../types';
 import * as R from 'ramda';
@@ -15,14 +15,16 @@ const LAST_POKEMON_NUMBER = 151;
 const SAVED_POKEMON_AMOUNT = 5;
 const POKEMON_OPTIONS_AMOUNT = 4;
 
-export const getCurrentPokemonName = (pokemons: Array<Pokemon>, currentPokemon: number): string =>
-  R.propOr('', 'name', pokemons[currentPokemon]);
+export const getCurrentPokemonData = (
+  pokemons: Array<Pokemon>,
+  currentPokemon: number
+): { pokemonName: string; pokemonImage: string; pokemonOptions: [] } => {
+  const pokemonName: string = R.propOr('', 'name', pokemons[currentPokemon]);
+  const pokemonImage: string = R.propOr('', 'image', pokemons[currentPokemon]);
+  const pokemonOptions: [] = R.propOr([], 'options', pokemons[currentPokemon]);
 
-export const getCurrentPokemonImage = (pokemons: Array<Pokemon>, currentPokemon: number): string =>
-  R.propOr('', 'image', pokemons[currentPokemon]);
-
-export const getCurrentPokemonOptions = (pokemons: Array<Pokemon>, currentPokemon: number): [] =>
-  R.propOr([], 'options', pokemons[currentPokemon]);
+  return { pokemonName, pokemonImage, pokemonOptions };
+};
 
 export const startGame = async (dispatch: Dispatch<actions.GameAction>) => {
   const pokemonNumbers = getPokemonNumbersToStart(
@@ -63,13 +65,27 @@ export const handleOptionSelected = async (
   playerAnswer: string,
   correctAnswer: string,
   pokemons: Array<Pokemon>,
+  currentPokemon: number,
   dispatch: Dispatch<actions.GameAction>
 ) => {
   playerAnswer === correctAnswer
     ? dispatch(actions.incrementCorrectAnswer())
     : dispatch(actions.incrementWrongAnswer());
 
-  const pokemonNumber = getRandomNumber(FIRST_POKEMON_NUMBER, LAST_POKEMON_NUMBER);
+  const pokemonNumbers = pokemons.map(pokemon => pokemon.number);
+
+  if (pokemonNumbers.length === LAST_POKEMON_NUMBER) {
+    if (currentPokemon === LAST_POKEMON_NUMBER - 1)
+      dispatch(actions.setGameState(GameStates.Finished));
+    return;
+  }
+
+  const pokemonNumber = getUniquePokemonNumber(
+    FIRST_POKEMON_NUMBER,
+    LAST_POKEMON_NUMBER,
+    pokemonNumbers
+  );
+
   const pokemonNumberList = getRandomNumbersArray(
     FIRST_POKEMON_NUMBER,
     LAST_POKEMON_NUMBER,
