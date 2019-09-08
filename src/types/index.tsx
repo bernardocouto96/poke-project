@@ -4,13 +4,20 @@ export enum GameStates {
   Finished
 }
 
+export type Pokemon = {
+  number: number;
+  name: string;
+  image: string;
+  options: Array<string>;
+};
+
 export interface StoreState {
   pokemonGame: {
+    pokemons: Array<Pokemon>;
     gameState: GameStates;
-    pokemonNames: Array<string>;
-    pokemonImages: Array<string>;
-    pokemonOptionsList: Array<Array<string>> | [[]];
     currentPokemon: number;
     isFetching?: boolean;
+    correctAnswers: number;
+    wrongAnswers: number;
   };
 }

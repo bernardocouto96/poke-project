@@ -4,9 +4,9 @@ import { HeaderComponent } from './header/header.component';
 import GameContainer from './whos-that-pokemon/game.container';
 import { Provider } from 'react-redux';
 
-interface AppProps {
+type AppProps = {
   store: any;
-}
+};
 
 const App: React.FC<AppProps> = ({ store }) => {
   return (

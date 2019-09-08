@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 export const PokemonImageComponent: React.FC<PokemonImageProps> = ({ pokemonImage }) => {

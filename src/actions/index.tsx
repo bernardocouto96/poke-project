@@ -1,24 +1,14 @@
 import * as constants from '../constants';
-import { GameStates } from '../types';
+import { GameStates, Pokemon } from '../types';
 
 export interface SetGameState {
   type: constants.SET_GAME_STATE;
   gameState: GameStates;
 }
 
-export interface SetPokemonNames {
-  type: constants.SET_POKEMON_NAMES;
-  pokemonNames: Array<string>;
-}
-
-export interface SetPokemonImage {
-  type: constants.SET_POKEMON_IMAGES;
-  pokemonImages: Array<string>;
-}
-
-export interface SetPokemonOptionsList {
-  type: constants.SET_POKEMON_OPTIONS_LIST;
-  pokemonOptionsList: Array<Array<string>>;
+export interface SetPokemons {
+  type: constants.SET_POKEMONS;
+  pokemons: Array<Pokemon>;
 }
 
 export interface FetchPokemonApi {
@@ -33,14 +23,27 @@ export interface PokemonApiFetchedFailed {
   type: constants.POKEMON_API_FETCH_FAILED;
 }
 
+export interface IncrementCorrectAnswer {
+  type: constants.INCREMENT_CORRECT_ANSWER;
+}
+
+export interface IncrementWrongAnswer {
+  type: constants.INCREMENT_WRONG_ANSWER;
+}
+
+export interface SetNextPokemon {
+  type: constants.SET_NEXT_POKEMON;
+}
+
 export type GameAction =
-  | SetPokemonNames
-  | SetPokemonImage
+  | SetPokemons
   | FetchPokemonApi
   | PokemonApiFetchedSuccessful
   | PokemonApiFetchedFailed
   | SetGameState
-  | SetPokemonOptionsList;
+  | IncrementCorrectAnswer
+  | IncrementWrongAnswer
+  | SetNextPokemon;
 
 export function setGameState(gameState: GameStates): SetGameState {
   return {
@@ -49,24 +52,10 @@ export function setGameState(gameState: GameStates): SetGameState {
   };
 }
 
-export function setPokemonNames(names: Array<string>): SetPokemonNames {
+export function setPokemons(pokemons: Array<Pokemon>): SetPokemons {
   return {
-    type: constants.SET_POKEMON_NAMES,
-    pokemonNames: names
-  };
-}
-
-export function setPokemonImages(urls: Array<string>): SetPokemonImage {
-  return {
-    type: constants.SET_POKEMON_IMAGES,
-    pokemonImages: urls
-  };
-}
-
-export function setPokemonOptionsList(pokemonOptionsList: Array<Array<string>>) {
-  return {
-    type: constants.SET_POKEMON_OPTIONS_LIST,
-    pokemonOptionsList
+    type: constants.SET_POKEMONS,
+    pokemons
   };
 }
 
@@ -85,5 +74,23 @@ export function pokemonApiFetchSuccessful(): PokemonApiFetchedSuccessful {
 export function pokemonApiFetchFailed(): PokemonApiFetchedFailed {
   return {
     type: constants.POKEMON_API_FETCH_FAILED
+  };
+}
+
+export function incrementCorrectAnswer(): IncrementCorrectAnswer {
+  return {
+    type: constants.INCREMENT_CORRECT_ANSWER
+  };
+}
+
+export function incrementWrongAnswer(): IncrementWrongAnswer {
+  return {
+    type: constants.INCREMENT_WRONG_ANSWER
+  };
+}
+
+export function setNextPokemon(): SetNextPokemon {
+  return {
+    type: constants.SET_NEXT_POKEMON
   };
 }

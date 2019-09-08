@@ -1,13 +1,14 @@
 import { GameAction } from '../actions';
 import { StoreState } from '../types/index';
 import {
-  SET_POKEMON_NAMES,
-  SET_POKEMON_IMAGES,
   FETCH_POKEMON_API,
   POKEMON_API_FETCH_SUCCESSFUL,
   POKEMON_API_FETCH_FAILED,
   SET_GAME_STATE,
-  SET_POKEMON_OPTIONS_LIST
+  INCREMENT_CORRECT_ANSWER,
+  INCREMENT_WRONG_ANSWER,
+  SET_NEXT_POKEMON,
+  SET_POKEMONS
 } from '../constants/index';
 
 export function game(state: StoreState, action: GameAction): StoreState {
@@ -18,15 +19,13 @@ export function game(state: StoreState, action: GameAction): StoreState {
         ...state,
         pokemonGame: { ...pokemonGameState, gameState: action.gameState }
       };
-    case SET_POKEMON_NAMES:
+    case SET_POKEMONS:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, pokemonNames: action.pokemonNames }
-      };
-    case SET_POKEMON_IMAGES:
-      return {
-        ...state,
-        pokemonGame: { ...pokemonGameState, pokemonImages: action.pokemonImages }
+        pokemonGame: {
+          ...pokemonGameState,
+          pokemons: action.pokemons
+        }
       };
     case FETCH_POKEMON_API:
       return {
@@ -43,10 +42,20 @@ export function game(state: StoreState, action: GameAction): StoreState {
         ...state,
         pokemonGame: { ...pokemonGameState, isFetching: false }
       };
-    case SET_POKEMON_OPTIONS_LIST:
+    case INCREMENT_CORRECT_ANSWER:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, pokemonOptionsList: action.pokemonOptionsList }
+        pokemonGame: { ...pokemonGameState, correctAnswers: state.pokemonGame.correctAnswers + 1 }
+      };
+    case INCREMENT_WRONG_ANSWER:
+      return {
+        ...state,
+        pokemonGame: { ...pokemonGameState, wrongAnswers: state.pokemonGame.wrongAnswers + 1 }
+      };
+    case SET_NEXT_POKEMON:
+      return {
+        ...state,
+        pokemonGame: { ...pokemonGameState, currentPokemon: state.pokemonGame.currentPokemon + 1 }
       };
   }
   return state;

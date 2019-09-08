@@ -7,22 +7,27 @@ import { GameStates } from '../types';
 
 export const GameComponent: React.FC<GameComponentProps> = ({
   gameState,
-  gameStartHandler,
+  onGameStart,
+  onPokemonOptionSelected,
   pokemonImage,
   pokemonName,
   pokemonOptions,
   isFetching
 }) => {
   useEffect(() => {
-    gameStartHandler();
-  }, [gameStartHandler]);
+    onGameStart();
+  }, []);
 
   return (
     <GameScreen>
       <TimerComponent />
       <PokemonImageAndOptionsWrapper>
         <PokemonImageComponent pokemonImage={pokemonImage} />
-        <PokemonOptionListComponent pokemonOptions={pokemonOptions} />
+        <PokemonOptionListComponent
+          correctAnswer={pokemonName}
+          pokemonOptions={pokemonOptions}
+          onPokemonOptionSelected={onPokemonOptionSelected}
+        />
       </PokemonImageAndOptionsWrapper>
     </GameScreen>
   );
@@ -46,5 +51,6 @@ type GameComponentProps = {
   pokemonName: string;
   isFetching?: boolean;
   pokemonOptions: Array<string>;
-  gameStartHandler: () => void;
+  onGameStart: () => void;
+  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
 };
