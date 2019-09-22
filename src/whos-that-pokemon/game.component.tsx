@@ -6,6 +6,16 @@ import PokemonOptionList from './components/pokemon-option-list.component';
 import { GameStates } from '../types';
 import Loading from './components/loading.component';
 
+type GameComponentProps = {
+  gameState: GameStates;
+  pokemonImage: string;
+  pokemonName: string;
+  isFetching: boolean;
+  pokemonOptions: Array<string>;
+  onGameStart: () => void;
+  onPokemonOptionSelected: (playerAnswer: string) => void;
+};
+
 export const GameComponent: React.FC<GameComponentProps> = ({
   gameState,
   onGameStart,
@@ -29,7 +39,6 @@ export const GameComponent: React.FC<GameComponentProps> = ({
           <PokemonImageAndOptionsWrapper>
             <PokemonImages pokemonImage={pokemonImage} />
             <PokemonOptionList
-              correctAnswer={pokemonName}
               pokemonOptions={pokemonOptions}
               onPokemonOptionSelected={onPokemonOptionSelected}
             />
@@ -55,13 +64,3 @@ const PokemonImageAndOptionsWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
-type GameComponentProps = {
-  gameState: GameStates;
-  pokemonImage: string;
-  pokemonName: string;
-  isFetching?: boolean;
-  pokemonOptions: Array<string>;
-  onGameStart: () => void;
-  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
-};

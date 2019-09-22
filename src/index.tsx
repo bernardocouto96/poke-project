@@ -13,7 +13,8 @@ const store = createStore<StoreState>(game, {
     currentPokemon: 0,
     gameState: GameStates.Stopped,
     correctAnswers: 0,
-    wrongAnswers: 0
+    wrongAnswers: 0,
+    isFetching: true
   }
 });
 ReactDOM.render(<App store={store} />, document.getElementById('root'));

@@ -57,8 +57,8 @@ const mergeProps = (stateProps: MapStateToProps, dispatchProps: MapDispatchToPro
     isFetching,
     pokemonOptions,
     onGameStart: () => gameStartHandler(),
-    onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) =>
-      pokemonOptionSelectedHandler(playerAnswer, correctAnswer, pokemons, currentPokemon)
+    onPokemonOptionSelected: (playerAnswer: string) =>
+      pokemonOptionSelectedHandler(playerAnswer, pokemonName, pokemons, currentPokemon)
   };
 };
 
@@ -69,7 +69,7 @@ type MapStateToProps = {
   pokemonName: string;
   pokemonOptions: Array<string>;
   currentPokemon: number;
-  isFetching?: boolean;
+  isFetching: boolean;
 };
 
 type MapDispatchToProps = {

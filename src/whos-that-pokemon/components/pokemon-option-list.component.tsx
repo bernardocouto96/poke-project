@@ -3,13 +3,11 @@ import PokemonOption from './pokemon-option.component';
 import styled from 'styled-components';
 
 type PokemonOptionsProps = {
-  correctAnswer: string;
   pokemonOptions: Array<string>;
-  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
+  onPokemonOptionSelected: (playerAnswer: string) => void;
 };
 
 const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
-  correctAnswer,
   pokemonOptions,
   onPokemonOptionSelected
 }) => {
@@ -19,7 +17,6 @@ const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
         <PokemonOption
           key={index}
           pokemonOptionName={name}
-          correctAnswer={correctAnswer}
           onPokemonOptionSelected={onPokemonOptionSelected}
         />
       ))}
