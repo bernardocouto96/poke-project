@@ -1,3 +1,15 @@
+import { GameStates } from '../types';
+
+export const INITIAL_GAME_STATE = {
+  pokemons: [],
+  currentPokemon: 0,
+  nextPokemon: 1,
+  gameState: GameStates.Stopped,
+  correctAnswers: 0,
+  wrongAnswers: 0,
+  isFetching: false
+};
+
 export const SET_GAME_STATE = 'SET_GAME_STATE';
 export type SET_GAME_STATE = typeof SET_GAME_STATE;
 
@@ -21,3 +33,6 @@ export type INCREMENT_WRONG_ANSWER = typeof INCREMENT_WRONG_ANSWER;
 
 export const SET_NEXT_POKEMON = 'SET_NEXT_POKEMON';
 export type SET_NEXT_POKEMON = typeof SET_NEXT_POKEMON;
+
+export const RESET_STATE = 'RESET_STATE';
+export type RESET_STATE = typeof RESET_STATE;

@@ -16,6 +16,7 @@ export interface StoreState {
     pokemons: Array<Pokemon>;
     gameState: GameStates;
     currentPokemon: number;
+    nextPokemon: number;
     isFetching: boolean;
     correctAnswers: number;
     wrongAnswers: number;

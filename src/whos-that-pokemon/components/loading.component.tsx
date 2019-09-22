@@ -4,7 +4,7 @@ const LoadingComponent: React.FC = () => {
   return (
     <Loading>
       <Pokeball />
-      <LoadingText>Loading...</LoadingText>
+      <LoadingText className="--mainText">Loading...</LoadingText>
     </Loading>
   );
 };
@@ -63,11 +63,6 @@ const Pokeball = styled.div`
     box-shadow: 0px 0px 0px 2px black, 0px 0px 0px 4px #ddd, 0px 0px 0px 6px black;
   }
 `;
-const LoadingText = styled.p`
-  color: yellow;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  text-align: center;
-  font-family: roboto;
-  font-size: 2em;
-`;
+const LoadingText = styled.p``;
+
 export default LoadingComponent;

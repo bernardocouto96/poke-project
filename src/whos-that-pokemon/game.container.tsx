@@ -1,28 +1,33 @@
 import { GameComponent } from './game.component';
 import * as actions from '../actions/';
-import { StoreState, GameStates, Pokemon } from '../types/index';
+import { StoreState, Pokemon } from '../types/index';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { startGame, handleOptionSelected, getCurrentPokemonData } from './game.selectors';
+import {
+  startGame,
+  handleOptionSelected,
+  getSinglePokemonData,
+  finishGame,
+  restartGame
+} from './game.selectors';
+import config from '../config/config.json';
 
-const mapStateToProps = (state: StoreState): MapStateToProps => {
+type MapDispatchToProps = {
+  gameStartHandler: () => void;
+  pokemonOptionSelectedHandler: (
+    playerAnswer: string,
+    correctAnswer: string,
+    pokemons: Array<Pokemon>,
+    currentPokemon: number
+  ) => void;
+  timerFinishedHandler: () => void;
+  restartGameHandler: () => void;
+};
+
+const mapStateToProps = (state: StoreState): StoreState => {
   console.log('state', state);
 
-  const { gameState, pokemons, isFetching, currentPokemon } = state.pokemonGame;
-  const { pokemonName, pokemonImage, pokemonOptions } = getCurrentPokemonData(
-    pokemons,
-    currentPokemon
-  );
-
-  return {
-    gameState,
-    pokemons,
-    pokemonName,
-    pokemonImage,
-    pokemonOptions,
-    currentPokemon,
-    isFetching
-  };
+  return state;
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<actions.GameAction>): MapDispatchToProps => {
@@ -33,53 +38,52 @@ const mapDispatchToProps = (dispatch: Dispatch<actions.GameAction>): MapDispatch
       correctAnswer: string,
       pokemons: Array<Pokemon>,
       currentPokemon: number
-    ) => handleOptionSelected(playerAnswer, correctAnswer, pokemons, currentPokemon, dispatch)
+    ) => handleOptionSelected(playerAnswer, correctAnswer, pokemons, currentPokemon, dispatch),
+    timerFinishedHandler: () => finishGame(dispatch),
+    restartGameHandler: () => restartGame(dispatch)
   };
 };
 
-const mergeProps = (stateProps: MapStateToProps, dispatchProps: MapDispatchToProps) => {
+const mergeProps = (stateProps: StoreState, dispatchProps: MapDispatchToProps) => {
   const {
     gameState,
-    pokemonImage,
-    pokemonName,
+    pokemons,
     isFetching,
-    pokemonOptions,
+    currentPokemon,
+    nextPokemon,
+    correctAnswers,
+    wrongAnswers
+  } = stateProps.pokemonGame;
+
+  const { pokemonName, pokemonImage, pokemonOptions } = getSinglePokemonData(
     pokemons,
     currentPokemon
-  } = stateProps;
+  );
 
-  const { gameStartHandler, pokemonOptionSelectedHandler } = dispatchProps;
+  const { pokemonImage: nextPokemonImage } = getSinglePokemonData(pokemons, nextPokemon);
+
+  const {
+    gameStartHandler,
+    pokemonOptionSelectedHandler,
+    timerFinishedHandler,
+    restartGameHandler
+  } = dispatchProps;
 
   return {
     gameState,
     pokemonImage,
-    pokemonName,
-    isFetching,
     pokemonOptions,
+    nextPokemonImage,
+    correctAnswers,
+    wrongAnswers,
+    initialTimer: config.game.time,
+    isFetching,
     onGameStart: () => gameStartHandler(),
     onPokemonOptionSelected: (playerAnswer: string) =>
-      pokemonOptionSelectedHandler(playerAnswer, pokemonName, pokemons, currentPokemon)
+      pokemonOptionSelectedHandler(playerAnswer, pokemonName, pokemons, currentPokemon),
+    onTimerFinished: () => timerFinishedHandler(),
+    onGameRestart: () => restartGameHandler()
   };
-};
-
-type MapStateToProps = {
-  gameState: GameStates;
-  pokemons: Array<Pokemon>;
-  pokemonImage: string;
-  pokemonName: string;
-  pokemonOptions: Array<string>;
-  currentPokemon: number;
-  isFetching: boolean;
-};
-
-type MapDispatchToProps = {
-  gameStartHandler: () => void;
-  pokemonOptionSelectedHandler: (
-    playerAnswer: string,
-    correctAnswer: string,
-    pokemons: Array<Pokemon>,
-    currentPokemon: number
-  ) => void;
 };
 
 export default connect(

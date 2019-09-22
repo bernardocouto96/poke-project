@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import config from '../config/config.json';
 
 const getPokemonRequestUrl = (pokemonNumber: number) => `${config.api.pokemonUrl}/${pokemonNumber}`;
 

@@ -9,13 +9,16 @@ import {
 } from '../helpers/pokemonNumberGenerator';
 import { GameStates, Pokemon } from '../types';
 import * as R from 'ramda';
+import config from '../config/config.json';
 
-const FIRST_POKEMON_NUMBER = 1;
-const LAST_POKEMON_NUMBER = 151;
-const SAVED_POKEMON_AMOUNT = 5;
-const POKEMON_OPTIONS_AMOUNT = 4;
+const {
+  firstPokemonNumber,
+  lastPokemonNumber,
+  pokemonOptionsAmount,
+  savedPokemonOptionsAmount
+} = config.game;
 
-export const getCurrentPokemonData = (
+export const getSinglePokemonData = (
   pokemons: Array<Pokemon>,
   currentPokemon: number
 ): { pokemonName: string; pokemonImage: string; pokemonOptions: [] } => {
@@ -28,14 +31,14 @@ export const getCurrentPokemonData = (
 
 export const startGame = async (dispatch: Dispatch<actions.GameAction>) => {
   const pokemonNumbers = getPokemonNumbersToStart(
-    FIRST_POKEMON_NUMBER,
-    LAST_POKEMON_NUMBER,
-    SAVED_POKEMON_AMOUNT
+    firstPokemonNumber,
+    lastPokemonNumber,
+    savedPokemonOptionsAmount
   );
   const pokemonNumberList = getPokemonNumbersForListToStart(
-    FIRST_POKEMON_NUMBER,
-    LAST_POKEMON_NUMBER,
-    POKEMON_OPTIONS_AMOUNT,
+    firstPokemonNumber,
+    lastPokemonNumber,
+    pokemonOptionsAmount,
     pokemonNumbers
   );
   dispatch(actions.fetchPokemonApi());
@@ -72,24 +75,26 @@ export const handleOptionSelected = async (
     ? dispatch(actions.incrementCorrectAnswer())
     : dispatch(actions.incrementWrongAnswer());
 
+  dispatch(actions.setNextPokemon());
+
   const pokemonNumbers = pokemons.map(pokemon => pokemon.number);
 
-  if (pokemonNumbers.length === LAST_POKEMON_NUMBER) {
-    if (currentPokemon === LAST_POKEMON_NUMBER - 1)
+  if (pokemonNumbers.length === lastPokemonNumber) {
+    if (currentPokemon === lastPokemonNumber - 1)
       dispatch(actions.setGameState(GameStates.Finished));
     return;
   }
 
   const pokemonNumber = getUniquePokemonNumber(
-    FIRST_POKEMON_NUMBER,
-    LAST_POKEMON_NUMBER,
+    firstPokemonNumber,
+    lastPokemonNumber,
     pokemonNumbers
   );
 
   const pokemonNumberList = getRandomNumbersArray(
-    FIRST_POKEMON_NUMBER,
-    LAST_POKEMON_NUMBER,
-    POKEMON_OPTIONS_AMOUNT,
+    firstPokemonNumber,
+    lastPokemonNumber,
+    pokemonOptionsAmount,
     pokemonNumber
   );
   try {
@@ -101,9 +106,16 @@ export const handleOptionSelected = async (
     ];
 
     dispatch(actions.setPokemons(updatedPokemons));
-
-    dispatch(actions.setNextPokemon());
   } catch (error) {
     dispatch(actions.pokemonApiFetchFailed());
   }
+};
+
+export const finishGame = (dispatch: Dispatch<actions.GameAction>) => {
+  dispatch(actions.setGameState(GameStates.Finished));
+};
+
+export const restartGame = (dispatch: Dispatch<actions.GameAction>) => {
+  dispatch(actions.resetState());
+  startGame(dispatch);
 };

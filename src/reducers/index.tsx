@@ -8,7 +8,9 @@ import {
   INCREMENT_CORRECT_ANSWER,
   INCREMENT_WRONG_ANSWER,
   SET_NEXT_POKEMON,
-  SET_POKEMONS
+  SET_POKEMONS,
+  RESET_STATE,
+  INITIAL_GAME_STATE
 } from '../constants/index';
 
 export function game(state: StoreState, action: GameAction): StoreState {
@@ -55,7 +57,16 @@ export function game(state: StoreState, action: GameAction): StoreState {
     case SET_NEXT_POKEMON:
       return {
         ...state,
-        pokemonGame: { ...pokemonGameState, currentPokemon: state.pokemonGame.currentPokemon + 1 }
+        pokemonGame: {
+          ...pokemonGameState,
+          currentPokemon: state.pokemonGame.currentPokemon + 1,
+          nextPokemon: state.pokemonGame.nextPokemon + 1
+        }
+      };
+    case RESET_STATE:
+      return {
+        ...state,
+        pokemonGame: INITIAL_GAME_STATE
       };
   }
   return state;

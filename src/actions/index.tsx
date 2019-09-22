@@ -35,6 +35,10 @@ export interface SetNextPokemon {
   type: constants.SET_NEXT_POKEMON;
 }
 
+export interface ResetState {
+  type: constants.RESET_STATE;
+}
+
 export type GameAction =
   | SetPokemons
   | FetchPokemonApi
@@ -43,7 +47,8 @@ export type GameAction =
   | SetGameState
   | IncrementCorrectAnswer
   | IncrementWrongAnswer
-  | SetNextPokemon;
+  | SetNextPokemon
+  | ResetState;
 
 export function setGameState(gameState: GameStates): SetGameState {
   return {
@@ -92,5 +97,11 @@ export function incrementWrongAnswer(): IncrementWrongAnswer {
 export function setNextPokemon(): SetNextPokemon {
   return {
     type: constants.SET_NEXT_POKEMON
+  };
+}
+
+export function resetState(): ResetState {
+  return {
+    type: constants.RESET_STATE
   };
 }
