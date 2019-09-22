@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { TimerComponent } from './components/timer-component';
-import { PokemonImageComponent } from './components/pokemon-image.component';
-import { PokemonOptionListComponent } from './components/pokemon-option-list.component';
+import Timer from './components/timer-component';
+import PokemonImages from './components/pokemon-image.component';
+import PokemonOptionList from './components/pokemon-option-list.component';
 import { GameStates } from '../types';
+import Loading from './components/loading.component';
 
 export const GameComponent: React.FC<GameComponentProps> = ({
   gameState,
@@ -20,15 +21,21 @@ export const GameComponent: React.FC<GameComponentProps> = ({
 
   return (
     <GameScreen>
-      <TimerComponent />
-      <PokemonImageAndOptionsWrapper>
-        <PokemonImageComponent pokemonImage={pokemonImage} />
-        <PokemonOptionListComponent
-          correctAnswer={pokemonName}
-          pokemonOptions={pokemonOptions}
-          onPokemonOptionSelected={onPokemonOptionSelected}
-        />
-      </PokemonImageAndOptionsWrapper>
+      {isFetching ? (
+        <Loading />
+      ) : (
+        [
+          <Timer />,
+          <PokemonImageAndOptionsWrapper>
+            <PokemonImages pokemonImage={pokemonImage} />
+            <PokemonOptionList
+              correctAnswer={pokemonName}
+              pokemonOptions={pokemonOptions}
+              onPokemonOptionSelected={onPokemonOptionSelected}
+            />
+          </PokemonImageAndOptionsWrapper>
+        ]
+      )}
     </GameScreen>
   );
 };
@@ -43,6 +50,10 @@ const PokemonImageAndOptionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 type GameComponentProps = {

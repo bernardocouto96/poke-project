@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const PokemonOptionComponent: React.FC<PokemonOptionsProps> = ({
+type PokemonOptionsProps = {
+  pokemonOptionName: string;
+  correctAnswer: string;
+  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
+};
+
+const PokemonOptionComponent: React.FC<PokemonOptionsProps> = ({
   pokemonOptionName,
   onPokemonOptionSelected,
   correctAnswer
@@ -23,10 +29,7 @@ const PokemonOption = styled.div`
   font-size: 2em;
   margin: 10px;
   padding: 5px;
+  cursor: pointer;
 `;
 
-type PokemonOptionsProps = {
-  pokemonOptionName: string;
-  correctAnswer: string;
-  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
-};
+export default PokemonOptionComponent;

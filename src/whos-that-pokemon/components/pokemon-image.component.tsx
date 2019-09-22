@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const PokemonImageComponent: React.FC<PokemonImageProps> = ({ pokemonImage }) => {
+type PokemonImageProps = {
+  pokemonImage: string;
+};
+
+const PokemonImageComponent: React.FC<PokemonImageProps> = ({ pokemonImage }) => {
   return <PokemonImage pokemonImage={pokemonImage} />;
 };
 
@@ -13,6 +17,4 @@ const PokemonImage = styled.div<PokemonImageProps>`
   filter: brightness(0%);
 `;
 
-type PokemonImageProps = {
-  pokemonImage: string;
-};
+export default PokemonImageComponent;

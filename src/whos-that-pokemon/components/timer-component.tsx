@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-export const TimerComponent: React.FC = () => {
+
+const TimerComponent: React.FC = () => {
   return <TimerContainer>30</TimerContainer>;
 };
 
@@ -16,3 +17,5 @@ const TimerContainer = styled.div`
   font-family: roboto;
   line-height: 1.2;
 `;
+
+export default TimerComponent;

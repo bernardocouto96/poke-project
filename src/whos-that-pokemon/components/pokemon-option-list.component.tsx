@@ -1,8 +1,14 @@
 import React from 'react';
-import { PokemonOptionComponent } from './pokemon-option.component';
+import PokemonOption from './pokemon-option.component';
 import styled from 'styled-components';
 
-export const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
+type PokemonOptionsProps = {
+  correctAnswer: string;
+  pokemonOptions: Array<string>;
+  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
+};
+
+const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
   correctAnswer,
   pokemonOptions,
   onPokemonOptionSelected
@@ -10,7 +16,7 @@ export const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
   return (
     <PokemonOptionList>
       {pokemonOptions.map((name, index) => (
-        <PokemonOptionComponent
+        <PokemonOption
           key={index}
           pokemonOptionName={name}
           correctAnswer={correctAnswer}
@@ -22,12 +28,7 @@ export const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
 };
 
 const PokemonOptionList = styled.div`
-  max-width: 300px;
-  width: 100%;
+  min-width: 300px;
 `;
 
-type PokemonOptionsProps = {
-  correctAnswer: string;
-  pokemonOptions: Array<string>;
-  onPokemonOptionSelected: (playerAnswer: string, correctAnswer: string) => void;
-};
+export default PokemonOptionListComponent;

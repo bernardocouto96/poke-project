@@ -5,7 +5,6 @@ const getPokemonRequestUrl = (pokemonNumber: number) => `${config.api.pokemonUrl
 
 export const getPokemon = async (pokemonNumber: number) => {
   const { data } = await axios.get(getPokemonRequestUrl(pokemonNumber));
-
   return { pokemonName: data.name, pokemonImage: data.sprites.front_default };
 };
 
@@ -14,7 +13,6 @@ export const getPokemons = async (pokemonNumbers: Array<number>) => {
     axios.get(getPokemonRequestUrl(pokemonNumber))
   );
   const responses = await Promise.all(requests);
-  console.log('responses', responses);
   const pokemonNames = responses.map(response => response.data.name);
   const pokemonImages = responses.map(response => response.data.sprites.front_default);
 
