@@ -11,6 +11,11 @@ export interface SetPokemons {
   pokemons: Array<Pokemon>;
 }
 
+export interface SetPlayerAnswer {
+  type: constants.SET_PLAYER_ANSWER;
+  playerAnswer: string;
+}
+
 export interface FetchPokemonApi {
   type: constants.FETCH_POKEMON_API;
 }
@@ -21,6 +26,14 @@ export interface PokemonApiFetchedSuccessful {
 
 export interface PokemonApiFetchedFailed {
   type: constants.POKEMON_API_FETCH_FAILED;
+}
+
+export interface SelectOption {
+  type: constants.SELECT_OPTION;
+}
+
+export interface DeselectOption {
+  type: constants.DESELECT_OPTION;
 }
 
 export interface IncrementCorrectAnswer {
@@ -48,7 +61,10 @@ export type GameAction =
   | IncrementCorrectAnswer
   | IncrementWrongAnswer
   | SetNextPokemon
-  | ResetState;
+  | ResetState
+  | SelectOption
+  | DeselectOption
+  | SetPlayerAnswer;
 
 export function setGameState(gameState: GameStates): SetGameState {
   return {
@@ -57,10 +73,29 @@ export function setGameState(gameState: GameStates): SetGameState {
   };
 }
 
+export function selectOption(): SelectOption {
+  return {
+    type: constants.SELECT_OPTION
+  };
+}
+
+export function deselectOption(): DeselectOption {
+  return {
+    type: constants.DESELECT_OPTION
+  };
+}
+
 export function setPokemons(pokemons: Array<Pokemon>): SetPokemons {
   return {
     type: constants.SET_POKEMONS,
     pokemons
+  };
+}
+
+export function setPlayerAnswer(playerAnswer: string): SetPlayerAnswer {
+  return {
+    type: constants.SET_PLAYER_ANSWER,
+    playerAnswer
   };
 }
 

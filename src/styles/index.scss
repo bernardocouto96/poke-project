@@ -6,3 +6,23 @@
   font-family: roboto;
   line-height: 1.2;
 }
+
+.--correct {
+  animation: correctAnswerAnimation 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal forwards;
+}
+
+.--wrong {
+  animation: wrongAnswerAnimation 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0s 1 normal forwards;
+}
+
+@keyframes correctAnswerAnimation {
+  to {
+    background-color: rgb(21, 168, 21);
+  }
+}
+
+@keyframes wrongAnswerAnimation {
+  to {
+    background-color: rgb(216, 34, 34);
+  }
+}

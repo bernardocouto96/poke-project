@@ -10,8 +10,11 @@ import Score from './components/score.component';
 
 type GameComponentProps = {
   gameState: GameStates;
+  pokemonName: string;
   pokemonImage: string;
   pokemonOptions: Array<string>;
+  playerAnswer: string;
+  optionIsSelected: boolean;
   nextPokemonImage: string;
   correctAnswers: number;
   wrongAnswers: number;
@@ -29,8 +32,11 @@ export const GameComponent: React.FC<GameComponentProps> = ({
   onPokemonOptionSelected,
   onTimerFinished,
   onGameRestart,
+  pokemonName,
   pokemonImage,
   pokemonOptions,
+  playerAnswer,
+  optionIsSelected,
   nextPokemonImage,
   correctAnswers,
   wrongAnswers,
@@ -48,7 +54,9 @@ export const GameComponent: React.FC<GameComponentProps> = ({
       <GameScreen>
         {gameState === GameStates.Stopped && (
           <StartButtonWrapper>
-            <StartButton onClick={onGameStart}>start game</StartButton>
+            <StartButton className="--mainText" onClick={onGameStart}>
+              start game
+            </StartButton>
           </StartButtonWrapper>
         )}
         {gameState === GameStates.Running && [
@@ -58,13 +66,18 @@ export const GameComponent: React.FC<GameComponentProps> = ({
             <PokemonOptionList
               pokemonOptions={pokemonOptions}
               onPokemonOptionSelected={onPokemonOptionSelected}
+              optionIsSelected={optionIsSelected}
+              correctAnswer={pokemonName}
+              playerAnswer={playerAnswer}
             />
           </PokemonImageAndOptionsWrapper>
         ]}
         {gameState === GameStates.Finished && (
           <ScoreAndRestartWrapper>
             <Score correctAswers={correctAnswers} wrongAnswers={wrongAnswers}></Score>
-            <StartButton onClick={onGameRestart}>Restart</StartButton>
+            <StartButton className="--mainText" onClick={onGameRestart}>
+              Restart
+            </StartButton>
           </ScoreAndRestartWrapper>
         )}
       </GameScreen>
@@ -76,6 +89,7 @@ const GameScreen = styled.div`
   width: 100%;
   height: 100%;
   padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
 `;
 
 const PokemonImageAndOptionsWrapper = styled.div`
@@ -86,6 +100,11 @@ const PokemonImageAndOptionsWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-top: 30px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 13px;
+  border: 1px solid #f1f1f0;
 `;
 
 const StartButtonWrapper = styled.div`

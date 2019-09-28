@@ -7,11 +7,7 @@ type ButtonProps = {
 };
 
 const ButtonComponent: React.FC<ButtonProps> = ({ children, ...props }) => {
-  return (
-    <StartButton className="--mainText" {...props}>
-      {children}
-    </StartButton>
-  );
+  return <StartButton {...props}>{children}</StartButton>;
 };
 
 const StartButton = styled.button`

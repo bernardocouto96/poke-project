@@ -10,7 +10,10 @@ import {
   SET_NEXT_POKEMON,
   SET_POKEMONS,
   RESET_STATE,
-  INITIAL_GAME_STATE
+  INITIAL_GAME_STATE,
+  SELECT_OPTION,
+  DESELECT_OPTION,
+  SET_PLAYER_ANSWER
 } from '../constants/index';
 
 export function game(state: StoreState, action: GameAction): StoreState {
@@ -29,6 +32,33 @@ export function game(state: StoreState, action: GameAction): StoreState {
           pokemons: action.pokemons
         }
       };
+
+    case SET_PLAYER_ANSWER:
+      return {
+        ...state,
+        pokemonGame: {
+          ...pokemonGameState,
+          playerAnswer: action.playerAnswer
+        }
+      };
+    case SELECT_OPTION: {
+      return {
+        ...state,
+        pokemonGame: {
+          ...pokemonGameState,
+          optionIsSelected: true
+        }
+      };
+    }
+    case DESELECT_OPTION: {
+      return {
+        ...state,
+        pokemonGame: {
+          ...pokemonGameState,
+          optionIsSelected: false
+        }
+      };
+    }
     case FETCH_POKEMON_API:
       return {
         ...state,

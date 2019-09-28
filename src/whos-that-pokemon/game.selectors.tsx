@@ -71,11 +71,18 @@ export const handleOptionSelected = async (
   currentPokemon: number,
   dispatch: Dispatch<actions.GameAction>
 ) => {
+  dispatch(actions.setPlayerAnswer(playerAnswer));
+  dispatch(actions.selectOption());
+
   playerAnswer === correctAnswer
     ? dispatch(actions.incrementCorrectAnswer())
     : dispatch(actions.incrementWrongAnswer());
 
-  dispatch(actions.setNextPokemon());
+  setTimeout(() => {
+    dispatch(actions.deselectOption());
+    dispatch(actions.setPlayerAnswer(''));
+    dispatch(actions.setNextPokemon());
+  }, 1000);
 
   const pokemonNumbers = pokemons.map(pokemon => pokemon.number);
 

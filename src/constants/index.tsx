@@ -3,8 +3,10 @@ import { GameStates } from '../types';
 export const INITIAL_GAME_STATE = {
   pokemons: [],
   currentPokemon: 0,
+  playerAnswer: '',
   nextPokemon: 1,
   gameState: GameStates.Stopped,
+  optionIsSelected: false,
   correctAnswers: 0,
   wrongAnswers: 0,
   isFetching: false
@@ -24,6 +26,15 @@ export type POKEMON_API_FETCH_FAILED = typeof POKEMON_API_FETCH_FAILED;
 
 export const SET_POKEMONS = 'SET_POKEMONS';
 export type SET_POKEMONS = typeof SET_POKEMONS;
+
+export const SET_PLAYER_ANSWER = 'SET_PLAYER_ANSWER';
+export type SET_PLAYER_ANSWER = typeof SET_PLAYER_ANSWER;
+
+export const SELECT_OPTION = 'SELECT_OPTION';
+export type SELECT_OPTION = typeof SELECT_OPTION;
+
+export const DESELECT_OPTION = 'DESELECT_OPTION';
+export type DESELECT_OPTION = typeof DESELECT_OPTION;
 
 export const INCREMENT_CORRECT_ANSWER = 'INCREMENT_CORRECT_ANSWER';
 export type INCREMENT_CORRECT_ANSWER = typeof INCREMENT_CORRECT_ANSWER;

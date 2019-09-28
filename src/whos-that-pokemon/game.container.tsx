@@ -48,6 +48,8 @@ const mergeProps = (stateProps: StoreState, dispatchProps: MapDispatchToProps) =
   const {
     gameState,
     pokemons,
+    playerAnswer,
+    optionIsSelected,
     isFetching,
     currentPokemon,
     nextPokemon,
@@ -71,9 +73,12 @@ const mergeProps = (stateProps: StoreState, dispatchProps: MapDispatchToProps) =
 
   return {
     gameState,
+    pokemonName,
     pokemonImage,
     pokemonOptions,
     nextPokemonImage,
+    playerAnswer,
+    optionIsSelected,
     correctAnswers,
     wrongAnswers,
     initialTimer: config.game.time,
