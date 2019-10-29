@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PokemonOptionButton from './button.component';
-import classNames from 'classnames';
 
 type PokemonOptionsProps = {
   pokemonOptions: Array<string>;
@@ -11,6 +10,22 @@ type PokemonOptionsProps = {
   playerAnswer: string;
 };
 
+const answerResultFeedback = (
+  playerAnswer: string,
+  name: string,
+  correctAnswer: string,
+  optionIsSelected: boolean
+) => {
+  if (optionIsSelected) {
+    if (correctAnswer === name) {
+      return '--correct';
+    }
+
+    if (playerAnswer === name && playerAnswer !== correctAnswer) {
+      return '--wrong';
+    }
+  }
+};
 const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
   pokemonOptions,
   onPokemonOptionSelected,
@@ -22,11 +37,9 @@ const PokemonOptionListComponent: React.FC<PokemonOptionsProps> = ({
     <PokemonOptionList>
       {pokemonOptions.map((name, index) => (
         <PokemonOptionButton
-          className={classNames({
-            '--mainText': true,
-            '--correct': correctAnswer === name && optionIsSelected,
-            '--wrong': playerAnswer === name && playerAnswer !== correctAnswer && optionIsSelected
-          })}
+          className={`--mainText
+            ${answerResultFeedback(playerAnswer, name, correctAnswer, optionIsSelected)}
+          `}
           key={index}
           onClick={() => onPokemonOptionSelected(name)}
           disabled={optionIsSelected}

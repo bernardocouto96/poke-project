@@ -82,7 +82,7 @@ export const handleOptionSelected = async (
     dispatch(actions.deselectOption());
     dispatch(actions.setPlayerAnswer(''));
     dispatch(actions.setNextPokemon());
-  }, 1000);
+  }, 700);
 
   const pokemonNumbers = pokemons.map(pokemon => pokemon.number);
 

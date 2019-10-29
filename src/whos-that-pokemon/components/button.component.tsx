@@ -7,10 +7,10 @@ type ButtonProps = {
 };
 
 const ButtonComponent: React.FC<ButtonProps> = ({ children, ...props }) => {
-  return <StartButton {...props}>{children}</StartButton>;
+  return <Button {...props}>{children}</Button>;
 };
 
-const StartButton = styled.button`
+const Button = styled.button`
   padding: 10px;
   margin: 5px;
   border: 2px solid #f5f749;
@@ -18,11 +18,10 @@ const StartButton = styled.button`
   background-color: #26547c;
   outline: none;
   cursor: pointer;
-  &:hover {
-    background-color: #397194;
-  }
-  &:active {
-    background-color: #113348;
+  @media (min-width: 768px) {
+    &:hover {
+      background-color: #397194;
+    }
   }
 `;
 
