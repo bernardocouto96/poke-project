@@ -7,6 +7,7 @@ import { GameStates } from '../types';
 import Loading from './components/loading.component';
 import StartButton from './components/button.component';
 import Score from './components/score.component';
+import runningPikachuGif from '../assets/images/running-pikachu.gif';
 
 type GameComponentProps = {
   gameState: GameStates;
@@ -43,46 +44,46 @@ export const GameComponent: React.FC<GameComponentProps> = ({
   initialTimer,
   isFetching
 }) => {
-  if (isFetching) {
-    return (
-      <GameScreen>
+  return (
+    <GameScreen>
+      {isFetching ? (
         <Loading />
-      </GameScreen>
-    );
-  } else {
-    return (
-      <GameScreen>
-        {gameState === GameStates.Stopped && (
-          <StartButtonWrapper>
-            <StartButton className="--mainText" onClick={onGameStart}>
-              start game
-            </StartButton>
-          </StartButtonWrapper>
-        )}
-        {gameState === GameStates.Running && [
-          <Timer onTimerFinished={onTimerFinished} initialTimer={initialTimer} />,
-          <PokemonImageAndOptionsWrapper>
-            <PokemonImages pokemonImage={pokemonImage} nextPokemonImage={nextPokemonImage} />
-            <PokemonOptionList
-              pokemonOptions={pokemonOptions}
-              onPokemonOptionSelected={onPokemonOptionSelected}
-              optionIsSelected={optionIsSelected}
-              correctAnswer={pokemonName}
-              playerAnswer={playerAnswer}
-            />
-          </PokemonImageAndOptionsWrapper>
-        ]}
-        {gameState === GameStates.Finished && (
-          <ScoreAndRestartWrapper>
-            <Score correctAswers={correctAnswers} wrongAnswers={wrongAnswers}></Score>
-            <StartButton className="--mainText" onClick={onGameRestart}>
-              Restart
-            </StartButton>
-          </ScoreAndRestartWrapper>
-        )}
-      </GameScreen>
-    );
-  }
+      ) : (
+        [
+          gameState === GameStates.Stopped && (
+            <StartButtonWrapper>
+              <StartButton className="--mainText" onClick={onGameStart}>
+                start game
+              </StartButton>
+            </StartButtonWrapper>
+          ),
+          gameState === GameStates.Running && [
+            <Timer onTimerFinished={onTimerFinished} initialTimer={initialTimer} />,
+            <PokemonImageAndOptionsWrapper>
+              <PokemonImages pokemonImage={pokemonImage} nextPokemonImage={nextPokemonImage} />
+              <PokemonOptionList
+                pokemonOptions={pokemonOptions}
+                onPokemonOptionSelected={onPokemonOptionSelected}
+                optionIsSelected={optionIsSelected}
+                correctAnswer={pokemonName}
+                playerAnswer={playerAnswer}
+              />
+            </PokemonImageAndOptionsWrapper>
+          ],
+          gameState === GameStates.Finished && (
+            <ScoreAndRestartWrapper>
+              <Score correctAswers={correctAnswers} wrongAnswers={wrongAnswers}></Score>
+              <StartButton className="--mainText" onClick={onGameRestart}>
+                Restart
+              </StartButton>
+            </ScoreAndRestartWrapper>
+          )
+        ]
+      )}
+
+      <RunningPikachu className="runningPikachu" src={runningPikachuGif}></RunningPikachu>
+    </GameScreen>
+  );
 };
 
 const GameScreen = styled.div`
@@ -125,4 +126,11 @@ const ScoreAndRestartWrapper = styled.div`
   flex-direction: column;
   height: 200px;
   justify-content: space-between;
+`;
+
+const RunningPikachu = styled.img`
+  position: absolute;
+  top: 80%;
+  width: 100px;
+  filter: brightness(60%);
 `;
