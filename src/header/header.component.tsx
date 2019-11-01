@@ -13,8 +13,9 @@ export const HeaderComponent: React.FC = () => {
 
 const Header = styled.div`
   background-color: #dd403a;
-  padding: 10px;
   text-align: center;
+  padding: 20px;
+  height: 15%;
 
   @media (min-width: 768px) {
     text-align: left;
@@ -22,7 +23,7 @@ const Header = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 200px;
+  width: 190px;
 
   @media (min-width: 768px) {
     width: 350px;

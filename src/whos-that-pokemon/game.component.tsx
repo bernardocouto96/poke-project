@@ -57,9 +57,9 @@ export const GameComponent: React.FC<GameComponentProps> = ({
               </StartButton>
             </StartButtonWrapper>
           ),
-          gameState === GameStates.Running && [
-            <Timer onTimerFinished={onTimerFinished} initialTimer={initialTimer} />,
-            <PokemonImageAndOptionsWrapper>
+          gameState === GameStates.Running && (
+            <PokemonGame>
+              <Timer onTimerFinished={onTimerFinished} initialTimer={initialTimer} />
               <PokemonImages pokemonImage={pokemonImage} nextPokemonImage={nextPokemonImage} />
               <PokemonOptionList
                 pokemonOptions={pokemonOptions}
@@ -68,11 +68,11 @@ export const GameComponent: React.FC<GameComponentProps> = ({
                 correctAnswer={pokemonName}
                 playerAnswer={playerAnswer}
               />
-            </PokemonImageAndOptionsWrapper>
-          ],
+            </PokemonGame>
+          ),
           gameState === GameStates.Finished && (
             <ScoreAndRestartWrapper>
-              <Score correctAswers={correctAnswers} wrongAnswers={wrongAnswers}></Score>
+              <Score correctAswers={correctAnswers} wrongAnswers={wrongAnswers} />
               <StartButton className="--mainText" onClick={onGameRestart}>
                 Restart
               </StartButton>
@@ -81,31 +81,32 @@ export const GameComponent: React.FC<GameComponentProps> = ({
         ]
       )}
 
-      <RunningPikachu className="runningPikachu" src={runningPikachuGif}></RunningPikachu>
+      <RunningPikachu className="runningPikachu" src={runningPikachuGif} />
     </GameScreen>
   );
 };
 
 const GameScreen = styled.div`
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 85%;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
-const PokemonImageAndOptionsWrapper = styled.div`
+const PokemonGame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-top: 30px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 13px;
-  border: 1px solid #f1f1f0;
+  box-shadow: 0px 0px 13px -2px rgba(0, 0, 0, 0.75);
 `;
 
 const StartButtonWrapper = styled.div`

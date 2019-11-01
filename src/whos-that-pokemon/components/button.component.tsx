@@ -11,11 +11,12 @@ const ButtonComponent: React.FC<ButtonProps> = ({ children, ...props }) => {
 };
 
 const Button = styled.button`
+  text-transform: capitalize;
   padding: 10px;
   margin: 5px;
   border: 2px solid #f5f749;
   border-radius: 15px;
-  background-color: #26547c;
+  background-color: rgba(53, 106, 188, 0.6);
   outline: none;
   cursor: pointer;
   @media (min-width: 768px) {

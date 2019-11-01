@@ -26,9 +26,13 @@ const TimerComponent: React.FC<TimerProps> = ({ onTimerFinished, initialTimer })
 };
 
 const TimerContainer = styled.div`
-  width: 100px;
-  height: 100px;
-  font-size: 5em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  font-size: 3em;
   color: #f5f749;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   text-align: center;
