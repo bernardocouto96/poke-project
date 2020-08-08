@@ -3,7 +3,7 @@
     "pokemonUrl": "https://pokeapi.co/api/v2/pokemon"
   },
   "game": {
-    "time": 30,
+    "time": 3000,
     "firstPokemonNumber": 1,
     "lastPokemonNumber": 151,
     "pokemonOptionsAmount": 4,

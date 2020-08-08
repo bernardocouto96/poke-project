@@ -81,7 +81,7 @@ export const GameComponent: React.FC<GameComponentProps> = ({
         ]
       )}
 
-      <RunningPikachu className="runningPikachu" src={runningPikachuGif} />
+      {/* <RunningPikachu className="runningPikachu" src={runningPikachuGif} /> */}
     </GameScreen>
   );
 };

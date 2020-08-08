@@ -13,8 +13,10 @@ const App: React.FC<AppProps> = ({ store }) => {
     <Provider store={store}>
       <Router>
         <div className="app-container">
-          <HeaderComponent />
-          <Route path="/" component={GameContainer} />
+          <div className="game-container">
+            <HeaderComponent />
+            <Route path="/" component={GameContainer} />
+          </div>
         </div>
       </Router>
     </Provider>
