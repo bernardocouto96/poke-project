@@ -1,98 +1,58 @@
-import { GameComponent } from './game.component';
-import * as actions from '../actions/';
-import { StoreState, Pokemon } from '../types/index';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import {
-  startGame,
-  handleOptionSelected,
-  getSinglePokemonData,
-  finishGame,
-  restartGame
-} from './game.selectors';
-import config from '../config/config.json';
+import React, { useEffect, useState } from 'react';
+import useSWR from 'swr';
+// import { GameComponent as Game } from './game.component';
+import { Pokemon } from '../types';
+import { getNextPokemonNumbers, getPokeApiRequestUrl } from './game.service';
 
-type MapDispatchToProps = {
-  gameStartHandler: () => void;
-  pokemonOptionSelectedHandler: (
-    playerAnswer: string,
-    correctAnswer: string,
-    pokemons: Array<Pokemon>,
-    currentPokemon: number
-  ) => void;
-  timerFinishedHandler: () => void;
-  restartGameHandler: () => void;
-};
+const GameContainer: React.FC = () => {
+  const [selectedPokemonNumber, setSelectedPokemonNumber] = useState({ current: 0, next: 0 });
 
-const mapStateToProps = (state: StoreState): StoreState => {
-  console.log('state', state);
+  const [pastSelectedPokemonNumbers, setPastSelectedPokemonNumbers] = useState<number[]>([]);
 
-  return state;
-};
+  const [pokemonNumberOptions, setPokemonNumberOptions] = useState<{ current: number[]; next: number[] }>({ current: [], next: [] });
 
-const mapDispatchToProps = (dispatch: Dispatch<actions.GameAction>): MapDispatchToProps => {
-  return {
-    gameStartHandler: () => startGame(dispatch),
-    pokemonOptionSelectedHandler: (
-      playerAnswer: string,
-      correctAnswer: string,
-      pokemons: Array<Pokemon>,
-      currentPokemon: number
-    ) => handleOptionSelected(playerAnswer, correctAnswer, pokemons, currentPokemon, dispatch),
-    timerFinishedHandler: () => finishGame(dispatch),
-    restartGameHandler: () => restartGame(dispatch)
+  const [pokemonNumberToRequest, setPokemonNumberToRequest] = useState(0);
+
+  const [pokemonOptions, setPokemonOptions] = useState<{ current: Pokemon[]; next: Pokemon[] }>({ current: [], next: [] });
+
+  useEffect(() => {
+    const initialPokemonNumbers = getNextPokemonNumbers(pastSelectedPokemonNumbers, (n: number) => setSelectedPokemonNumber({ current: n, next: 0 }));
+    setPokemonNumberOptions({ current: initialPokemonNumbers, next: [] });
+  }, []);
+
+  useEffect(() => {
+    const updateNumbersToRequest = async (pokemonNumberOptions: number[]) => {
+      for (const index in pokemonNumberOptions) {
+        const pokemonNumber = pokemonNumberOptions[index];
+        await setPokemonNumberToRequest(pokemonNumber);
+      }
+    };
+
+    if (pokemonNumberOptions.next.length) {
+      updateNumbersToRequest(pokemonNumberOptions.next);
+    } else if (pokemonNumberOptions.current.length) {
+      updateNumbersToRequest(pokemonNumberOptions.current);
+    }
+  }, [pokemonNumberOptions]);
+
+  const onSuccess = (res: Pokemon) =>
+    pokemonOptions.current ? setPokemonOptions({ ...pokemonOptions, next: [res] }) : setPokemonOptions({ ...pokemonOptions, current: [res] });
+
+  useSWR<Pokemon>(getPokeApiRequestUrl(pokemonNumberToRequest), { onSuccess, revalidateOnFocus: false });
+
+  const onPokemonSelection = () => {
+    setPastSelectedPokemonNumbers([...pastSelectedPokemonNumbers, selectedPokemonNumber.current]);
+
+    const nextPokemonNumbers = getNextPokemonNumbers(pastSelectedPokemonNumbers, (n: number) =>
+      setSelectedPokemonNumber({ current: selectedPokemonNumber.next, next: n }),
+    );
+
+    setPokemonNumberOptions({ current: pokemonNumberOptions.next, next: nextPokemonNumbers });
   };
+
+  return <button onClick={onPokemonSelection}>tega</button>;
+
+  // return <Game {...data}></Game>;
 };
 
-const mergeProps = (stateProps: StoreState, dispatchProps: MapDispatchToProps) => {
-  const {
-    gameState,
-    pokemons,
-    playerAnswer,
-    optionIsSelected,
-    isFetching,
-    currentPokemon,
-    nextPokemon,
-    correctAnswers,
-    wrongAnswers
-  } = stateProps.pokemonGame;
-
-  const { pokemonName, pokemonImage, pokemonOptions } = getSinglePokemonData(
-    pokemons,
-    currentPokemon
-  );
-
-  const { pokemonImage: nextPokemonImage } = getSinglePokemonData(pokemons, nextPokemon);
-
-  const {
-    gameStartHandler,
-    pokemonOptionSelectedHandler,
-    timerFinishedHandler,
-    restartGameHandler
-  } = dispatchProps;
-
-  return {
-    gameState,
-    pokemonName,
-    pokemonImage,
-    pokemonOptions,
-    nextPokemonImage,
-    playerAnswer,
-    optionIsSelected,
-    correctAnswers,
-    wrongAnswers,
-    initialTimer: config.game.time,
-    isFetching,
-    onGameStart: () => gameStartHandler(),
-    onPokemonOptionSelected: (playerAnswer: string) =>
-      pokemonOptionSelectedHandler(playerAnswer, pokemonName, pokemons, currentPokemon),
-    onTimerFinished: () => timerFinishedHandler(),
-    onGameRestart: () => restartGameHandler()
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps
-)(GameComponent);
+export default GameContainer;
